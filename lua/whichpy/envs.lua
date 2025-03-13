@@ -6,6 +6,7 @@ local final_envs = {}
 local orig_interpreter_path
 local curr_interpreter_path
 local curr_env_explicitly_set
+local env_name = nil
 local InterpreterInfo = require("whichpy.locator").InterpreterInfo
 
 local M = {}
@@ -81,6 +82,7 @@ M.handle_select = function(selected, should_cache, explicitly_set)
     vim.env.VIRTUAL_ENV = nil
     vim.env.CONDA_PREFIX = nil
   end
+  env_name = selected.env_var.val
 
   util.notify("$VIRTUAL_ENV: " .. (vim.env.VIRTUAL_ENV or "nil"))
   util.notify("$CONDA_PREFIX: " .. (vim.env.CONDA_PREFIX or "nil"))
@@ -186,6 +188,10 @@ end
 
 M.current_selected_explicitly = function()
   return curr_env_explicitly_set
+end
+
+M.current_selected_name = function()
+  return env_name
 end
 
 return M
